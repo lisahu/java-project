@@ -24,7 +24,6 @@ pipeline {
         }
       }
     }
-
     stage('deploy') {
       agent {
         label 'apache'
@@ -36,6 +35,15 @@ pipeline {
     stage('Running on CentOS'){
       agent {
         label 'CentOS'
+      }
+      steps {
+        sh "wget http://lisa-linuxacademy5.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+      }
+    }
+    stage("Test on Debian"){
+      agent {
+        docker "openjkd:8u121-jre"
       }
       steps {
         sh "wget http://lisa-linuxacademy5.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
